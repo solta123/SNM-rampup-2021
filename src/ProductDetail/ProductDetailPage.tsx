@@ -1,0 +1,36 @@
+import React, { useEffect } from 'react';
+import { useQueryLoader } from 'react-relay';
+import ProductDetail from './ProductDetail';
+import { graphql } from 'babel-plugin-relay/macro';
+import { ProductDetailPageQuery } from './__generated__/ProductDetailPageQuery.graphql';
+
+export const ProductByIdQuery = graphql`
+    query ProductDetailPageQuery($prodId: Int!) {
+        productByProdId(prodId: $prodId) {
+            category
+            commonProdId
+            nodeId
+            price
+            prodId
+            special
+            title
+            actor
+        }
+    }
+`;
+
+const ProductDetailPage = (props: any) => {
+    const [queryReference, loadQuery, disposeQuery] = useQueryLoader<ProductDetailPageQuery>(ProductByIdQuery);
+
+    useEffect(() => {
+        loadQuery({ prodId: parseInt(props.match.params.prodId, 10) });
+        return () => disposeQuery();
+    }, [disposeQuery, loadQuery, props.match.params.prodId]);
+
+    if (queryReference) {
+        return <ProductDetail queryReference={queryReference} />
+    }
+    return <div>Loading product...</div>
+};
+
+export default ProductDetailPage;

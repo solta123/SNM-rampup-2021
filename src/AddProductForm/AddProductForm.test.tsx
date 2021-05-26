@@ -1,0 +1,100 @@
+import React, { ReactElement, Suspense } from 'react';
+import { customersQuery } from '../List/List';
+import { RelayEnvironmentProvider } from 'react-relay';
+import { createMockEnvironment, MockPayloadGenerator, RelayMockEnvironment } from 'relay-test-utils';
+import { render, act, screen, RenderResult, cleanup } from '@testing-library/react';
+import { MockResolvers } from 'relay-test-utils/lib/RelayMockPayloadGenerator';
+import AddProductForm from './AddProductForm';
+import ProductListQueryFetcher from '../ProductListQueryFetcher/ProductListQueryFetcher';
+import userEvent from '@testing-library/user-event';
+
+describe('AddProductForm', () => {
+    let environment: RelayMockEnvironment;
+    let TestRenderer: () => ReactElement;
+
+    const mockResolver: MockResolvers = {
+        Query: () => {
+            return {
+                allProducts: {
+                    nodes: [
+                        {
+                            price: 2.99,
+                            title: 'Laptop',
+                            prodId: 'asd',
+                            actor: 'Jess'
+                        }
+                    ]
+                }
+            }
+        }
+    };
+
+    const mockMutationResolver: MockResolvers = {
+        Mutation() {
+            return {
+                createProduct: {
+                    product: {
+                        actor: 'aaaaa',
+                        price: 9,
+                        title: 'aaaaa',
+                        prodId: 10
+                    }
+                }
+            }
+        }
+    }
+
+    beforeEach(() => {
+        environment = createMockEnvironment();
+
+        TestRenderer = () => (
+            <RelayEnvironmentProvider environment={environment} >
+                <AddProductForm />
+            </RelayEnvironmentProvider>
+        );
+        (environment as any).mock.queuePendingOperation(customersQuery, {});
+    });
+
+    afterEach(() => cleanup());
+
+    // it('should display error messages', async () => {
+    //     const renderer: RenderResult = render(<TestRenderer />);
+
+    //     act(() => {
+    //         environment.mock.resolveMostRecentOperation(operation =>
+    //             MockPayloadGenerator.generate(operation, mockResolver)
+    //         );
+    //     });
+
+    //     expect(await renderer.findByText('Laptop', { exact: false })).toBeInTheDocument();
+
+    //     (await renderer.findByText('Submit')).click();
+
+    //     expect(renderer.getByText('Product name is too short', { exact: false })).toBeInTheDocument();
+    //     expect(renderer.getByText('Actor name required', { exact: false })).toBeInTheDocument();
+    //     expect(renderer.getByText('Price is too low', { exact: false })).toBeInTheDocument();
+    // });
+
+    it('should add new product', async () => {
+        const renderer: RenderResult = render(<TestRenderer />);
+
+        const titleInput = renderer.getByLabelText('Title');
+        const actorInput = renderer.getByLabelText('Actor');
+
+        userEvent.type(titleInput, 'aaaaa');
+        userEvent.type(actorInput, 'aaaaa');
+        userEvent.type(renderer.getByLabelText('Price'), '9');
+
+        environment.mock.queueOperationResolver(operation =>
+            MockPayloadGenerator.generate(operation, mockMutationResolver)
+        );
+
+        act(() => {
+            userEvent.click(renderer.getByRole('button', { name: /submit/i }));
+        });
+
+        screen.debug();
+
+        expect(await renderer.findByText('Successfully added!')).toBeInTheDocument();
+    });
+});
