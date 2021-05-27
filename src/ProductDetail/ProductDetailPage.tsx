@@ -19,13 +19,13 @@ export const ProductByIdQuery = graphql`
     }
 `;
 
-const ProductDetailPage = (props: any) => {
+const ProductDetailPage = ({ match }: any) => {
     const [queryReference, loadQuery, disposeQuery] = useQueryLoader<ProductDetailPageQuery>(ProductByIdQuery);
 
     useEffect(() => {
-        loadQuery({ prodId: parseInt(props.match.params.prodId, 10) });
+        loadQuery({ prodId: parseInt(match.params.prodId, 10) });
         return () => disposeQuery();
-    }, [disposeQuery, loadQuery, props.match.params.prodId]);
+    }, [disposeQuery, loadQuery, match.params.prodId]);
 
     if (queryReference) {
         return <ProductDetail queryReference={queryReference} />

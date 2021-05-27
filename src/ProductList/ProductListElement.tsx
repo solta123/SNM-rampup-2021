@@ -4,6 +4,7 @@ import { jsx } from '@emotion/react';
 import React from 'react';
 import { Link } from 'found';
 import styled from '@emotion/styled';
+import { ProductListQueryFetcherProductQueryResponseNode } from './ProductList';
 
 // interface ProductListElementInterface {
 //     prodId: number,
@@ -27,15 +28,17 @@ const ListElement = styled.div`
   }
 `;
 
-const ProductListElement = (props: any) => {
-    let product = props.product;
+type Props = {
+  product: ProductListQueryFetcherProductQueryResponseNode
+};
 
-    return <Link to={'/product/' + product?.prodId}>
-        <ListElement key={product?.prodId} id={product?.prodId.toString()}>
-            <h3 css={{ marginTop: '0.5em', '&:link': { textDecoration: 'none' } }}>{product?.title} for ${product?.price}</h3>
-            <div>{product?.actor}</div>
-        </ListElement>
-    </Link>
+const ProductListElement = ({ product }: Props) => {
+  return <Link to={'/product/' + product?.prodId}>
+    <ListElement key={product?.prodId} id={product?.prodId.toString()}>
+      <h3 css={{ marginTop: '0.5em', '&:link': { textDecoration: 'none' } }}>{product?.title} for ${product?.price}</h3>
+      <div>{product?.actor}</div>
+    </ListElement>
+  </Link>
 };
 
 export default ProductListElement;

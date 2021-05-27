@@ -22,13 +22,13 @@ const ListContainer = styled.div`
 `;
 
 const ProductList = (props: { queryReference: PreloadedQuery<ProductListQueryFetcherProductQuery, Record<string, unknown>> }) => {
-  const products: ProductListQueryFetcherProductQueryResponse =
+  const { allProducts }: ProductListQueryFetcherProductQueryResponse =
     usePreloadedQuery<ProductListQueryFetcherProductQuery>(productQuery, props.queryReference);
 
   return (
     <ul>
       <ListContainer>
-        {products?.allProducts?.nodes.map((product: ProductListQueryFetcherProductQueryResponseNode) => (
+        {allProducts?.nodes.map((product: ProductListQueryFetcherProductQueryResponseNode) => (
           <ProductListElement product={product} key={product?.prodId} />
         ))}
       </ListContainer>

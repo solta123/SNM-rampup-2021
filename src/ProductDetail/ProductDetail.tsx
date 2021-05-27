@@ -4,7 +4,7 @@ import { jsx } from '@emotion/react';
 import styled from '@emotion/styled';
 import { graphql } from 'babel-plugin-relay/macro';
 import React, { useEffect } from 'react';
-import { usePreloadedQuery, useQueryLoader } from 'react-relay';
+import { PreloadedQuery, usePreloadedQuery, useQueryLoader } from 'react-relay';
 import ProductListElementDisplay from '../ProductList/ProductListElementDisplay';
 import CategoryNameDisplay from './CategoryNameDisplay';
 import { ProductByIdQuery } from './ProductDetailPage';
@@ -30,10 +30,14 @@ const SpecsContainer = styled.ul`
     padding: 0.5rem;
 `;
 
-const ProductDetail = (props: any) => {
+type Props = {
+    queryReference: PreloadedQuery<ProductDetailPageQuery>
+};
+
+const ProductDetail = ({ queryReference }: Props) => {
     const { productByProdId }: ProductDetailPageQueryResponse =
-        usePreloadedQuery<ProductDetailPageQuery>(ProductByIdQuery, props.queryReference);
-    const [queryReference, loadQuery, disposeQuery] =
+        usePreloadedQuery<ProductDetailPageQuery>(ProductByIdQuery, queryReference);
+    const [catProductQueryReference, loadQuery, disposeQuery] =
         useQueryLoader<ProductDetailCategoryNameAndCommonProductQuery>(productDetailCategoryNameAndCommonProductQuery);
 
     useEffect(() => {
@@ -55,14 +59,14 @@ const ProductDetail = (props: any) => {
         <h4>Specs:</h4>
         <SpecsContainer>
             <li>Main actor: <b>{productByProdId?.actor}</b></li>
-            {queryReference && <li>Category: <CategoryNameDisplay queryReference={queryReference} /></li>}
+            {catProductQueryReference && <li>Category: <CategoryNameDisplay queryReference={catProductQueryReference} /></li>}
         </SpecsContainer>
 
-        {queryReference && (
+        {catProductQueryReference && (
             <div>
                 <h3>You may also like:</h3>
                 <div css={{ display: 'flex' }}>
-                    <ProductListElementDisplay queryReference={queryReference} />
+                    <ProductListElementDisplay queryReference={catProductQueryReference} />
                 </div>
             </div>
         )}

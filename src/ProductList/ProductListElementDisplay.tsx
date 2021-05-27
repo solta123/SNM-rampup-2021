@@ -1,5 +1,5 @@
 import React from 'react';
-import { usePreloadedQuery } from 'react-relay';
+import { PreloadedQuery, usePreloadedQuery } from 'react-relay';
 import { productDetailCategoryNameAndCommonProductQuery } from '../ProductDetail/ProductDetail';
 import {
     ProductDetailCategoryNameAndCommonProductQuery,
@@ -7,9 +7,13 @@ import {
 } from '../ProductDetail/__generated__/ProductDetailCategoryNameAndCommonProductQuery.graphql';
 import ProductListElement from './ProductListElement';
 
-const ProductListDisplay = (props: any) => {
+type Props = {
+    queryReference: PreloadedQuery<ProductDetailCategoryNameAndCommonProductQuery>
+};
+
+const ProductListDisplay = ({ queryReference }: Props) => {
     const { productByProdId }: ProductDetailCategoryNameAndCommonProductQueryResponse =
-        usePreloadedQuery<ProductDetailCategoryNameAndCommonProductQuery>(productDetailCategoryNameAndCommonProductQuery, props.queryReference);
+        usePreloadedQuery<ProductDetailCategoryNameAndCommonProductQuery>(productDetailCategoryNameAndCommonProductQuery, queryReference);
 
     return <ProductListElement product={productByProdId} />;
 };
