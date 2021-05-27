@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useQueryLoader } from 'react-relay';
-import ProductDetail from './ProductDetail';
 import { graphql } from 'babel-plugin-relay/macro';
 import { ProductDetailPageQuery } from './__generated__/ProductDetailPageQuery.graphql';
+import ProductDetail from './ProductDetail';
 
 export const ProductByIdQuery = graphql`
     query ProductDetailPageQuery($prodId: Int!) {

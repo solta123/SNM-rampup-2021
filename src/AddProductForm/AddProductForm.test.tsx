@@ -1,33 +1,15 @@
-import React, { ReactElement, Suspense } from 'react';
+import React, { ReactElement } from 'react';
 import { customersQuery } from '../List/List';
 import { RelayEnvironmentProvider } from 'react-relay';
 import { createMockEnvironment, MockPayloadGenerator, RelayMockEnvironment } from 'relay-test-utils';
-import { render, act, screen, RenderResult, cleanup } from '@testing-library/react';
+import { render, act, RenderResult, cleanup } from '@testing-library/react';
 import { MockResolvers } from 'relay-test-utils/lib/RelayMockPayloadGenerator';
 import AddProductForm from './AddProductForm';
-import ProductListQueryFetcher from '../ProductListQueryFetcher/ProductListQueryFetcher';
 import userEvent from '@testing-library/user-event';
 
 describe('AddProductForm', () => {
     let environment: RelayMockEnvironment;
     let TestRenderer: () => ReactElement;
-
-    const mockResolver: MockResolvers = {
-        Query: () => {
-            return {
-                allProducts: {
-                    nodes: [
-                        {
-                            price: 2.99,
-                            title: 'Laptop',
-                            prodId: 'asd',
-                            actor: 'Jess'
-                        }
-                    ]
-                }
-            }
-        }
-    };
 
     const mockMutationResolver: MockResolvers = {
         Mutation() {
@@ -92,8 +74,6 @@ describe('AddProductForm', () => {
         act(() => {
             userEvent.click(renderer.getByRole('button', { name: /submit/i }));
         });
-
-        screen.debug();
 
         expect(await renderer.findByText('Successfully added!')).toBeInTheDocument();
     });

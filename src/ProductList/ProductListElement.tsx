@@ -4,9 +4,6 @@ import { jsx } from '@emotion/react';
 import React from 'react';
 import { Link } from 'found';
 import styled from '@emotion/styled';
-import { ProductDetailCategoryNameAndCommonProductQuery, ProductDetailCategoryNameAndCommonProductQueryResponse } from '../ProductDetail/__generated__/ProductDetailCategoryNameAndCommonProductQuery.graphql';
-import { usePreloadedQuery } from 'react-relay';
-import { productDetailCategoryNameAndCommonProductQuery } from '../ProductDetail/ProductDetail';
 
 // interface ProductListElementInterface {
 //     prodId: number,
@@ -31,15 +28,7 @@ const ListElement = styled.div`
 `;
 
 const ProductListElement = (props: any) => {
-    let product = null
-    if (props.queryReference) {
-        const { productByProdId }: ProductDetailCategoryNameAndCommonProductQueryResponse =
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            usePreloadedQuery<ProductDetailCategoryNameAndCommonProductQuery>(productDetailCategoryNameAndCommonProductQuery, props.queryReference);
-        product = productByProdId;
-    } else {
-        product = props.product;
-    }
+    let product = props.product;
 
     return <Link to={'/product/' + product?.prodId}>
         <ListElement key={product?.prodId} id={product?.prodId.toString()}>

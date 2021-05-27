@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import { graphql } from 'babel-plugin-relay/macro';
 import React, { useEffect } from 'react';
 import { usePreloadedQuery, useQueryLoader } from 'react-relay';
-import ProductListElement from '../ProductList/ProductListElement';
+import ProductListElementDisplay from '../ProductList/ProductListElementDisplay';
 import CategoryNameDisplay from './CategoryNameDisplay';
 import { ProductByIdQuery } from './ProductDetailPage';
 import { ProductDetailCategoryNameAndCommonProductQuery } from './__generated__/ProductDetailCategoryNameAndCommonProductQuery.graphql';
@@ -58,10 +58,14 @@ const ProductDetail = (props: any) => {
             {queryReference && <li>Category: <CategoryNameDisplay queryReference={queryReference} /></li>}
         </SpecsContainer>
 
-        <h3>You may also like:</h3>
-        <div css={{ display: 'flex' }}>
-            <ProductListElement queryReference={queryReference} />
-        </div>
+        {queryReference && (
+            <div>
+                <h3>You may also like:</h3>
+                <div css={{ display: 'flex' }}>
+                    <ProductListElementDisplay queryReference={queryReference} />
+                </div>
+            </div>
+        )}
     </div >
 };
 

@@ -28,7 +28,10 @@ const ProductListQueryFetcher = () => {
   if (!queryReference) {
     return <div>Loading products...</div>;
   }
-  return <ProductList queryReference={queryReference} />;
+  return <div>
+    <h1>List 2</h1>
+    <ProductList queryReference={queryReference} />
+  </div>;
 };
 
 export default ProductListQueryFetcher;

@@ -2,8 +2,9 @@ import React, { ReactElement, Suspense } from 'react';
 import List, { customersQuery } from './List';
 import { RelayEnvironmentProvider } from 'react-relay';
 import { createMockEnvironment, MockPayloadGenerator, RelayMockEnvironment } from 'relay-test-utils';
-import { render, act, RenderResult } from '@testing-library/react';
+import { render, RenderResult } from '@testing-library/react';
 import { MockResolvers } from 'relay-test-utils/lib/RelayMockPayloadGenerator';
+import { act } from 'react-dom/test-utils';
 
 describe('List', () => {
     let environment: RelayMockEnvironment;
@@ -46,7 +47,7 @@ describe('List', () => {
             environment.mock.resolveMostRecentOperation(operation =>
                 MockPayloadGenerator.generate(operation, mockResolver)
             );
-        });
+        })
 
         expect(await renderer.findByText('List')).toBeDefined();
     });

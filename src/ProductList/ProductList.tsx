@@ -27,10 +27,9 @@ const ProductList = (props: { queryReference: PreloadedQuery<ProductListQueryFet
 
   return (
     <ul>
-      <h1>List 2</h1>
       <ListContainer>
         {products?.allProducts?.nodes.map((product: ProductListQueryFetcherProductQueryResponseNode) => (
-          <ProductListElement product={product} />
+          <ProductListElement product={product} key={product?.prodId} />
         ))}
       </ListContainer>
     </ul>

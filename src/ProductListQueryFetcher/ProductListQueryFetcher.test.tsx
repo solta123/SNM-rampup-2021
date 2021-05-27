@@ -1,9 +1,10 @@
 import React, { ReactElement, Suspense } from 'react';
 import { RelayEnvironmentProvider } from 'react-relay';
 import { createMockEnvironment, MockPayloadGenerator, RelayMockEnvironment } from 'relay-test-utils';
-import { render, act, screen, RenderResult } from '@testing-library/react';
+import { render, RenderResult } from '@testing-library/react';
 import { MockResolvers } from 'relay-test-utils/lib/RelayMockPayloadGenerator';
 import ProductListQueryFetcher, { productQuery } from './ProductListQueryFetcher';
+import { act } from 'react-test-renderer';
 
 describe('List', () => {
     let environment: RelayMockEnvironment;
@@ -46,8 +47,8 @@ describe('List', () => {
             environment.mock.resolveMostRecentOperation(operation =>
                 MockPayloadGenerator.generate(operation, mockResolver)
             );
-        });
+        })
 
-        expect(await renderer.findByText('Laptop', { exact: false })).toBeInTheDocument();
+        expect(await renderer.findByText('List 2', { exact: false })).toBeInTheDocument();
     });
 });
