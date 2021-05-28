@@ -39,24 +39,6 @@ describe('AddProductForm', () => {
 
     afterEach(() => cleanup());
 
-    // it('should display error messages', async () => {
-    //     const renderer: RenderResult = render(<TestRenderer />);
-
-    //     act(() => {
-    //         environment.mock.resolveMostRecentOperation(operation =>
-    //             MockPayloadGenerator.generate(operation, mockResolver)
-    //         );
-    //     });
-
-    //     expect(await renderer.findByText('Laptop', { exact: false })).toBeInTheDocument();
-
-    //     (await renderer.findByText('Submit')).click();
-
-    //     expect(renderer.getByText('Product name is too short', { exact: false })).toBeInTheDocument();
-    //     expect(renderer.getByText('Actor name required', { exact: false })).toBeInTheDocument();
-    //     expect(renderer.getByText('Price is too low', { exact: false })).toBeInTheDocument();
-    // });
-
     it('should add new product', async () => {
         const renderer: RenderResult = render(<TestRenderer />);
 

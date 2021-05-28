@@ -6,8 +6,6 @@ import List from '../List/List';
 import ProductListQueryFetcher from '../ProductListQueryFetcher/ProductListQueryFetcher';
 import ProductDetailPage from '../ProductDetail/ProductDetailPage';
 
-
-
 const Router = createBrowserRouter({
     routeConfig: makeRouteConfig(
         <Route Component={App}>
@@ -22,7 +20,7 @@ const Router = createBrowserRouter({
             </Route>
             <Route path="product/:prodId"
                 Component={ProductDetailPage}
-                prepareVariables={({ prodId }: any) => ({ prodId })}
+                prepareVariables={({ prodId }: { prodId: string }) => ({ prodId })}
             />
             <Redirect from="*" to="/list" />
         </Route>

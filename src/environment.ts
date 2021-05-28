@@ -4,7 +4,7 @@ import fetchGraphQL from './fetchGraphQL';
 type RequestParameters = {
   cacheID?: string | null | undefined,
   id: string | null | undefined,
-  metadata: object,
+  metadata: Record<string, unknown>,
   name: string,
   operationKind: string,
   text: string | null | undefined

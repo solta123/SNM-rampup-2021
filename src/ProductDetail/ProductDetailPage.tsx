@@ -3,6 +3,7 @@ import { useQueryLoader } from 'react-relay';
 import { graphql } from 'babel-plugin-relay/macro';
 import { ProductDetailPageQuery } from './__generated__/ProductDetailPageQuery.graphql';
 import ProductDetail from './ProductDetail';
+import { RouteRenderArgs } from "found";
 
 export const ProductByIdQuery = graphql`
     query ProductDetailPageQuery($prodId: Int!) {
@@ -19,7 +20,7 @@ export const ProductByIdQuery = graphql`
     }
 `;
 
-const ProductDetailPage = ({ match }: any) => {
+const ProductDetailPage = ({ match }: RouteRenderArgs) => {
     const [queryReference, loadQuery, disposeQuery] = useQueryLoader<ProductDetailPageQuery>(ProductByIdQuery);
 
     useEffect(() => {

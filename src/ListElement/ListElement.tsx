@@ -1,12 +1,12 @@
 import React from 'react';
 import { ListCustomersQueryResponseNode } from '../List/List';
 
-const ListElement = (props: { data: ListCustomersQueryResponseNode }) => {
+const ListElement = ({ data }: { data: ListCustomersQueryResponseNode }) => {
     return (
-        <li id={props.data?.email || 'asd'}>
-            <h2>{props.data?.firstname} {props.data?.lastname} ({props.data?.age})</h2>
-            <div>Email: {props.data?.email}</div>
-            <div>Country: {props.data?.country}</div>
+        <li id={data?.email || 'asd'}>
+            <h2>{data?.firstname} {data?.lastname} ({data?.age})</h2>
+            <div>Email: {data?.email}</div>
+            <div>Country: {data?.country}</div>
         </li>
     );
 };

@@ -68,7 +68,6 @@ const AddProductForm = () => {
     };
 
     const commit = async (input: ProductInput, resetFunction: () => void) => {
-        console.log(input)
         const queryVariebles = {
             input: {
                 product: {
@@ -112,7 +111,6 @@ const AddProductForm = () => {
                 allProducts?.setLinkedRecords(newProducts, 'nodes');
             },
             onCompleted() {
-                console.log('completed mutation')
                 resetFunction();
                 displaySuccess();
             }
@@ -120,7 +118,6 @@ const AddProductForm = () => {
     };
 
     const handleSubmit = async (inputs: ProductInput, formFunctions: FormApi<ProductInput>) => {
-        console.log(inputs)
         await commit(inputs, formFunctions.reset);
 
         formFunctions.resetFieldState('title');
